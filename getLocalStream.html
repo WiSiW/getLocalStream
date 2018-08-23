@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网页打开摄像头和麦克风</title>
+</head>
+<body>
+    <button onclick="getLocalStream()">打开(默认电脑有摄像头和麦克风)</button>
+    <h3>你的视频</h3>
+    <div id="video"></div>
+</body>
+<script>
+    function getLocalStream () {
+        navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(getStream).catch(
+                error);
+        function getStream(e) {
+            console.log(e)
+            stream = e;
+            let parent = document.createElement("div");
+            let child = document.createElement("video");
+            child.src = window.URL.createObjectURL(e);
+
+            child.width = 300;
+            child.height = 300;
+            child.controls = "controls";
+            parent.id = "local_video";
+            child.autoplay = "autoplay";
+            document.getElementById("video").appendChild(parent);
+            document.getElementById("local_video").appendChild(child);
+        }
+
+        function error(error) {
+            console.log(error);
+        }
+    }
+</script>
+</html>
